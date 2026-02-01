@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中日ドラゴンズ沖縄キャンプ見学 旅程表 (最適化版)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f0f2f5;
+            min-height: 100vh;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        header p {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        h2 {
+            color: #1e3c72;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        h2:first-of-type {
+            margin-top: 0;
+        }
+        
+        h3 {
+            color: #2a5298;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+        
+        /* テーブルの基本スタイル */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: white;
+        }
+        
+        table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        /* 概要テーブルのスタイル */
+        .overview-table td:first-child {
+            font-weight: 600;
+            background: #f8f9fa;
+            width: 30%;
+        }
+        
+        /* 日別セクション */
+        .day-section {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-left: 5px solid #667eea;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .day-title {
+            font-size: 1.2em;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+        
+        /* モバイル対応のレスポンシブスタイル */
+        @media (max-width: 600px) {
+            body {
+                background: white;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            /* テーブルを縦並びにする設定 */
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            
+            /* ヘッダーを非表示にする（アクセシビリティのため位置だけ飛ばす） */
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            
+            /* 通常のテーブル行のスタイル */
+            table tr {
+                border: 1px solid #eee;
+                margin-bottom: 10px;
+                border-radius: 6px;
+                padding: 5px;
+            }
+            
+            table td {
+                border: none;
+                border-bottom: 1px solid #f5f5f5;
+                position: relative;
+                padding-left: 35%;
+                text-align: left;
+                min-height: 40px;
+            }
+            
+            table td:last-child {
+                border-bottom: none;
+            }
+            
+            /* ラベルの追加 */
+            table td::before {
+                position: absolute;
+                left: 10px;
+                width: 30%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: bold;
+                color: #667eea;
+                content: attr(data-label);
+            }
+
+            /* 概要テーブルはラベルなしで横並びを維持するか、シンプルにする */
+            .overview-table td {
+                padding-left: 12px;
+            }
+            .overview-table td::before {
+                content: none;
+            }
+            .overview-table td:first-child {
+                width: 100%;
+                background: #f8f9fa;
+                border-bottom: 1px solid #eee;
+                padding: 8px 12px;
+            }
+
+            /* 旅程表の時間列を強調 */
+            .itinerary-table td[data-label="時間"] {
+                font-size: 1.1em;
+                color: #1e3c72;
+                font-weight: bold;
+            }
+            
+            .itinerary-table td {
+                padding-left: 80px;
+            }
+            
+            .itinerary-table td::before {
+                width: 70px;
+            }
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐉 中日ドラゴンズ沖縄キャンプ見学</h1>
+            <p>2026年2月5日(木) ～ 2月8日(日) 旅程表</p>
+        </header>
+        
+        <div class="content">
+            <h2>旅程概要</h2>
+            <p>宿泊地：北谷町「ココシャスモンペ」を拠点に、Agreスタジアム北谷を中心に巡る4日間の旅程です。</p>
+            
+            <table class="overview-table">
+                <tr>
+                    <td>日程</td>
+                    <td>2026年2月5日(木) 〜 2月8日(日) (3泊4日)</td>
+                </tr>
+                <tr>
+                    <td>目的</td>
+                    <td>中日ドラゴンズ沖縄春季キャンプ見学</td>
+                </tr>
+                <tr>
+                    <td>航空便</td>
+                    <td>往路: 中部 14:45 - 那覇 17:15<br>復路: 那覇 15:20 - 中部 17:20</td>
+                </tr>
+                <tr>
+                    <td>宿泊</td>
+                    <td>ココシャスモンペ (北谷町)</td>
+                </tr>
+                <tr>
+                    <td>移動</td>
+                    <td>レンタカー（バジェット那覇空港店）<br>予約：247110550</td>
+                </tr>
+                <tr>
+                    <td>予約</td>
+                    <td>2/6(金) 19:30 ブルーオーシャンステーキ</td>
+                </tr>
+            </table>
+            
+            <h2>キャンプ情報</h2>
+            <table class="itinerary-table">
+                <thead>
+                    <tr>
+                        <th>項目</th>
+                        <th>詳細</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="場所">一軍：Agreスタジアム北谷</td>
+                        <td data-label="詳細">北谷町運動公園内</td>
+                    </tr>
+                    <tr>
+                        <td data-label="場所">二軍：オキハム読谷球場</td>
+                        <td data-label="詳細">読谷村平和の森球場</td>
+                    </tr>
+                    <tr>
+                        <td data-label="時間">練習時間</td>
+                        <td data-label="詳細">10:00頃 〜 16:00頃</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2>詳細旅程表</h2>
+            
+            <div class="day-section">
+                <div class="day-title">📅 2月5日(木) - 到着</div>
+                <table class="itinerary-table">
+                    <thead>
+                        <tr>
+                            <th>時間</th>
+                            <th>行動</th>
+                            <th>備考</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="時間">14:45</td>
+                            <td data-label="行動">中部国際空港 出発</td>
+                            <td data-label="備考">-</td>
+                        </tr>
+                        <tr>
+                            <td data-label="時間">17:15</td>
+                            <td data-label="行動">那覇空港 到着</td>
+                            <td data-label="備考">-</td>
+                        </tr>
+                        <tr>
+                            <td data-label="時間">18:00</td>
+                            <td data-label="行動">レンタカー受取</td>
+                            <td data-label="備考">バジェットレンタカー</td>
+                        </tr>
+                        <tr>
+                            <td data-label="時間">20:00</td>
+                            <td data-label="行動">ホテルチェックイン</td>
+                            <td data-label="備考">ココシャスモンペ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="day-section">
+                <div class="day-title">📅 2月6日(金) - 見学1日目</div>
+                <table class="itinerary-table">
+                    <thead>
+                        <tr>
+                            <th>時間</th>
+                            <th>行動</th>
+                            <th>備考</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="時間">10:00</td>
+                            <td data-label="行動">キャンプ見学開始</td>
+                            <td data-label="備考">Agreスタジアム北谷</td>
+                        </tr>
+                        <tr>
+                            <td data-label="時間">12:00</td>
+                            <td data-label="行動">昼食</td>
+                            <td data-label="備考">アメリカンビレッジ</td>
+                        </tr>
+                        <tr>
+                            <td data-label="時間">19:30</td>
+                            <td data-label="行動">夕食 (予約済)</td>
+                            <td data-label="備考">ブルーオーシャンステーキ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="day-section">
+                <div class="day-title">📅 2月7日(土) - 見学2日目</div>
+                <table class="itinerary-table">
+                    <thead>
+                        <tr>
+                            <th>時間</th>
+                            <th>行動</th>
+                            <th>備考</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="時間">10:00</td>
+                            <td data-label="行動">キャンプ見学</td>
+                            <td data-label="備考">北谷(一軍) or 読谷(二軍)</td>
+                        </tr>
+                        <tr>
+                            <td data-label="時間">17:30</td>
+                            <td data-label="行動">サンセットビーチ</td>
+                            <td data-label="備考">夕日鑑賞</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="day-section">
+                <div class="day-title">📅 2月8日(日) - 最終日</div>
+                <table class="itinerary-table">
+                    <thead>
+                        <tr>
+                            <th>時間</th>
+                            <th>行動</th>
+                            <th>備考</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="時間">09:30</td>
+                            <td data-label="行動">午前練習見学</td>
+                            <td data-label="備考">最後のファンサービス</td>
+                        </tr>
+                        <tr>
+                            <td data-label="時間">14:00</td>
+                            <td data-label="行動">レンタカー返却</td>
+                            <td data-label="備考">那覇空港へ移動</td>
+                        </tr>
+                        <tr>
+                            <td data-label="時間">15:20</td>
+                            <td data-label="行動">那覇空港 出発</td>
+                            <td data-label="備考">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2026 中日ドラゴンズ沖縄キャンプ応援ツアー</p>
+        </footer>
+    </div>
+</body>
+</html>
